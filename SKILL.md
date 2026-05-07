@@ -92,6 +92,9 @@ Parser la demande utilisateur :
 }
 ```
 
+**Si le type de chart n'est pas précisé** (mode single) → demander obligatoirement :
+> "Quel type de graphique ? (line, bar, donut, pie, gauge, radar, funnel, progress ring, heatmap, bubble, waterfall, step progress, KPI card…)"
+
 Si données ambiguës pour un single → demander **brièvement** (1 question max) ou choisir des défauts plausibles.
 
 ### Étape 2 — Résoudre les tokens couleur (find-or-create)
@@ -129,9 +132,10 @@ Card Frame (VERTICAL auto-layout, FILL_CONTAINER, padding=24, gap=16)
 **Responsive — RÈGLE OBLIGATOIRE** :
 
 1. Card : `layoutAlign='STRETCH'` si parent est auto-layout, sinon dimensions fixes.
-2. Chart frame interne : `layoutMode='NONE'` + `layoutAlign='STRETCH'` + `layoutGrow=1` → remplit la place dans la card.
-3. **TOUS les enfants du chart frame** (vectors, rectangles, ellipses, textes) doivent avoir `constraints = { horizontal: 'SCALE', vertical: 'SCALE' }` pour suivre le redimensionnement.
-4. Appliquer en post-walk après le build :
+2. **`layoutSizingVertical='HUG'` OBLIGATOIRE sur la card** — ne jamais mettre une hauteur fixe sur la card elle-même, sinon le contenu est coupé. Seul le chart frame interne a une hauteur fixe.
+3. Chart frame interne : `layoutMode='NONE'` + `layoutSizingHorizontal='FILL'` + hauteur FIXED définie dans le tableau des tailles canvas.
+4. **TOUS les enfants du chart frame** (vectors, rectangles, ellipses, textes) doivent avoir `constraints = { horizontal: 'SCALE', vertical: 'SCALE' }` pour suivre le redimensionnement.
+5. Appliquer en post-walk après le build :
    ```js
    const walk = (n) => {
      if (n !== body && 'constraints' in n) n.constraints = { horizontal: 'SCALE', vertical: 'SCALE' };
@@ -140,7 +144,7 @@ Card Frame (VERTICAL auto-layout, FILL_CONTAINER, padding=24, gap=16)
    walk(body);
    ```
 
-Sans cela, redimensionner la card laissera le chart figé en haut-gauche.
+Sans cela, redimensionner la card laissera le chart figé en haut-gauche — ou la card sera coupée.
 
 ### Étape 4 — Données : injection ou aléatoire
 
@@ -205,7 +209,7 @@ Voir [knowledge-base/charts/](./knowledge-base/charts/) pour les specs complète
 | # | Symptôme | Cause | Fix |
 |---|----------|-------|-----|
 | P1 | Couleur en dur (hex) | `setBoundVariableForPaint` non appelé | Toujours résoudre les vars d'abord |
-| P2 | Chart débordant la card | `FILL_CONTAINER` non set sur le chart frame | `layoutSizingHorizontal = 'FILL'` |
+| P2 | Chart débordant / card coupée | `FILL_CONTAINER` non set, ou card en hauteur fixe | `layoutSizingHorizontal = 'FILL'` sur chart frame **ET** `layoutSizingVertical = 'HUG'` sur la card |
 | P3 | Labels qui se chevauchent | Trop de catégories vs largeur | Skip 1/N labels ou rotation -45° |
 | P4 | Donut center value mal centré | Pas en absolute position | Frame center via `constraints` ou auto-layout `CENTER` |
 | P5 | Vector polyline distordue | Coordonnées en pixels relatives au mauvais parent | Toujours coords relatives au chart frame, vector posé en (0,0) |

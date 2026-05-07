@@ -37,7 +37,9 @@ Card (VERTICAL, FILL × HUG, padding=24, gap=16, cornerRadius=12, fills=surface/
           └── Label (text 12/400, text/secondary)
 ```
 
-Tailles défaut : `width=432`, `height=auto`. Mais **`layoutSizingHorizontal='FILL'`** dès qu'on est dans un grid.
+Tailles défaut : `width=432`, `height=auto (HUG)`.
+
+> ⚠️ **Ne jamais mettre de hauteur fixe sur la card** — utiliser `layoutSizingVertical='HUG'` pour que la card s'adapte à son contenu. Seul le frame chart interne a une hauteur fixe. Une hauteur fixe sur la card provoque la coupure du contenu.
 
 ### Header — variantes
 

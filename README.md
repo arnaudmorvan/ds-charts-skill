@@ -73,12 +73,6 @@ ds-charts-skill/
         └── specialized.md         # kpi, heatmap, bubble, funnel, radar, waterfall, step
 ```
 
-## Référence visuelle
-
-Inspiré du [Smart Charts Kit](https://www.figma.com/design/unAQSfuwGyYnv4wQyNTO8h/31-Free-Smart--Charts-Kit) (Figma Community).
-
-**Fichier de démo** : [Graphique — Showcase 20 charts](https://www.figma.com/design/WCwlKZnPisrSJNZ52ANklK/Graphique) — les 20 types en mode `graphical` et `data`, plus la page guide avec tous les prompts.
-
 ## Limites connues
 
 - Les vectors Figma ne reflow pas automatiquement quand le parent change de taille → re-générer le chart

@@ -2,6 +2,8 @@
 
 Toujours résoudre les couleurs **via variables Figma** — jamais de hex en dur dans le rendu final.
 
+> ⚠️ **Hex 6 chars obligatoire** : Utiliser uniquement des hex 6 chars (`#FFFFFF`, `#000000`). Les hex 3 chars (`#fff`, `#ccc`) produisent `NaN` dans le canal bleu lors du parsing (`parseInt('', 16) = NaN`). Si vous écrivez un helper `H(hex)`, toujours gérer les 2 cas : `if(x.length===3){ r=x[0]+x[0]; g=x[1]+x[1]; b=x[2]+x[2] }`.
+
 ## Étape 1 — Chercher la collection chart
 
 ```js

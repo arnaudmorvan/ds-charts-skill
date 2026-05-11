@@ -217,6 +217,8 @@ Voir [knowledge-base/charts/](./knowledge-base/charts/) pour les specs complète
 | P7 | Heatmap dates mal mappées | Semaine commence dimanche vs lundi | Documenter `weekStart` config (défaut Mon) |
 | P8 | Radar axes irréguliers | angles non équidistants | `angle = -π/2 + i * 2π/N` |
 | P9 | Chart figé après redimensionnement de la card | Constraints par défaut (LEFT_TOP) | Appliquer `constraints={horizontal:'SCALE',vertical:'SCALE'}` à tous les enfants du chart frame en post-walk |
+| P10 | `color.b` vaut `NaN` dans `set_fills` | Hex 3 chars (`#fff`, `#000`) passé à un parser hex-6 | Toujours utiliser hex 6 chars (`#FFFFFF`, `#000000`). Si parser custom : détecter `x.length===3` et doubler chaque char avant `parseInt` |
+| P11 | `gradientHandlePositions` rejeté par le plugin | Format REST API utilisé au lieu du format Plugin API | Les gradients Plugin API utilisent `gradientTransform` (matrice 2×3 `[[a,b,c],[d,e,f]]`), pas `gradientHandlePositions`. Gradient vertical : `[[0,1,0],[-1,0,1]]` |
 
 ## Knowledge Base
 
